@@ -1,0 +1,42 @@
+package generated.fr.ul.miage.tdCup;
+import fr.ul.miage.arbre.*;
+
+// code java
+parser code {:
+    public Noeud resultat = null;
+:}
+
+terminal ADD, SUB, MUL, DIV, PO, PF;
+terminal Integer NUM;
+non terminal Noeud expression, facteur, atome;
+non terminal langage;
+start with langage;
+langage ::= expression:e {: resultat = e; :}
+        ;
+expression ::= expression:e ADD facteur:f {:
+            RESULT = new Plus();
+            ((Plus)RESULT).setFilsGauche(e);
+            ((Plus)RESULT).setFilsDroit(f);
+        :}
+    | expression:e SUB facteur:f {:
+            RESULT = new Moins();
+            ((Moins)RESULT).setFilsGauche(e);
+            ((Moins)RESULT).setFilsDroit(f);
+        :}
+    | facteur:f {: RESULT = f; :}
+    ;
+facteur ::= facteur:f MUL atome:a {:
+          RESULT = new Multiplication();
+          ((Multiplication)RESULT).setFilsGauche(f);
+          ((Multiplication)RESULT).setFilsDroit(a);
+        :}
+    | facteur:f DIV atome:a {:
+            RESULT = new Division();
+            ((Division)RESULT).setFilsGauche(f);
+            ((Division)RESULT).setFilsDroit(a);
+        :}
+    | atome:a {: RESULT = a; :}
+    ;
+atome ::= NUM:n {: RESULT = new Const(n); :}
+    | PO expression:e PF {: RESULT = e; :}
+    ;
