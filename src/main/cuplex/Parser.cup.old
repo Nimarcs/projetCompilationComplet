@@ -101,7 +101,8 @@ lire ::= LIRE
 
 programme ::= blocDeclaration programme2
     ;
-programme2 ::= fonction programme2 | fonction
+programme2 ::= fonction programme2
+    | fonction
     ;
 
 defParam ::= defParam2

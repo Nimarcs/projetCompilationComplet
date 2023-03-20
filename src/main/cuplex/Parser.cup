@@ -26,92 +26,93 @@ programme, programme2,
 defParam, defParam2, defIdf, declaration;
 start with programme;
 
-expression ::= expression ADD facteur
-    | expression SUB facteur
-    | facteur
+expression ::= expression:e ADD facteur:f
+    | expression:e SUB facteur:f
+    | facteur:f
     ;
-facteur ::= facteur MUL atome
-    | facteur DIV atome
-    | atome
+facteur ::= facteur:f MUL atome:a
+    | facteur:f DIV atome:a
+    | atome:a
     ;
 atome ::= NUM
-    | PO expression PF
-    | IDF
-    | lire
-    | appel
+    | PO expression:e PF
+    | IDF:i
+    | lire:l
+    | appel:a
     ;
 
-expressionBooleene ::= expression SUP expression
-    | expression INF expression
-    | expression SUP expression
-    | expression SEQ expression
-    | expression IEQ expression
-    | expression EQ expression
-    | expression DIF expression
+expressionBooleene ::= expression:eg SUP expression:ed
+    | expression:eg INF expression:ed
+    | expression:eg SUP expression:ed
+    | expression:eg SEQ expression:ed
+    | expression:eg IEQ expression:ed
+    | expression:eg EQ expression:ed
+    | expression:eg DIF expression:ed
     ;
 
-blocInstruction ::= instruction blocInstruction
+blocInstruction ::= instruction:i blocInstruction:bi
     | //vide
     ;
 
-blocDeclaration ::= declaration blocDeclaration
+blocDeclaration ::= declaration:d blocDeclaration:bd
     | //vide
     ;
 
-conditionnelle ::= SI PO expressionBooleene PF AO blocInstruction AF
-                    SINON AO blocInstruction AF
+conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF
+                    SINON AO blocInstruction:bsinon AF
     ;
 
-affectation ::= IDF AFF expression PV
+affectation ::= IDF AFF expression:e PV
     ;
 
-ecrire ::= ECRIRE PO expression PF PV
+ecrire ::= ECRIRE PO expression:e PF PV
     ;
 
-tantque ::= TANTQUE PO expressionBooleene PF AO blocInstruction AF
+tantque ::= TANTQUE PO expressionBooleene:eb PF AO blocInstruction:b AF
     ;
 
-retour ::= RETOUR expression PV
+retour ::= RETOUR expression:e PV
     | RETOUR PV
     ;
 
-appel ::= IDF PO parametre PF PV
+appel ::= IDF PO parametre:p PF PV
     ;
 
-parametre ::= parametre2
+parametre ::= parametre2:p
     | //vide
     ;
-parametre2 ::= expression
-    | expression VIR parametre2
+parametre2 ::= expression:e
+    | expression:e VIR parametre2:p
     ;
 
-instruction ::= affectation
-    | appel
-    | ecrire
-    | si
-    | tantque
-    | retour
+instruction ::= affectation:a
+    | appel:a
+    | ecrire:e
+    | si:s
+    | tantque:t
+    | retour:r
     ;
 
-fonction ::= FONCTION IDF PO defParam PF AO blocDeclaration blocInstruction AF
+fonction ::= FONCTION IDF PO defParam:d PF AO blocDeclaration:bd blocInstruction:bi AF
     ;
 
 lire ::= LIRE
     ;
 
-programme ::= blocDeclaration programme2
+programme ::= blocDeclaration:bd programme2:p
     ;
-programme2 ::= fonction programme2 | fonction
+programme2 ::= fonction:f programme2:p
+    | fonction:f
     ;
 
-defParam ::= defParam2
+defParam ::= defParam2:p
     | //vide
     ;
-defParam2 ::= defIdf VIR defParam2
-    | defIdf
+defParam2 ::= defIdf:i VIR defParam2:p
+    | defIdf:i
     ;
 defIdf ::= INT IDF
     ;
-declaration ::= defIdf PV
-    | defIdf AFF NUM PV
+declaration ::= defIdf:i PV
+    | defIdf:i AFF NUM PV
     ;
