@@ -1,0 +1,104 @@
+Grammaire au 14/03/2023 17:45 :
+
+Terminaux :
+IDF (nom de l'idf)
+SI
+SINON
+ECRIRE
+TANTQUE
+RETOUR
+INT
+FONCTION
+LIRE
+NUM (nombre entier)
++
+-
+*
+/
+(
+)
+>
+< 
+>= 
+<=
+==
+!=
+{
+}
+;
+,
+
+
+Non terminaux :
+expression 
+facteur 
+atome 
+ExpressionBooleene 
+BlocInstruction 
+BlocDeclaration 
+conditionnelle 
+Affectation 
+Ecrire 
+TantQue 
+retour 
+retour 
+Appel 
+parametre 
+parametre2
+Instruction 
+fonction 
+lire 
+programme 
+programme2
+defparam 
+defparam2
+defIdf 
+declaration 
+
+
+Grammaire :
+
+expression -> NUM | expression + facteur | expression - facteur | facteur
+facteur ->  facteur * atome | facteur / atome | atome
+atome -> (expression) | IDF | lire | appel | NUM 
+
+ExpressionBooleene -> expression > expression 
+| expression < expression
+| expression >= expression
+| expression <= expression
+| expression == expression 
+| expression != expression
+
+BlocInstruction -> Instruction BlocInstruction | Epsilon
+
+BlocDeclaration -> declaration BlocDeclaration | Epsilon 
+
+conditionnelle -> SI ( expressionBooleen ) { BlocInstruction  } SINON { BlocInstruction  } 
+
+Affectation -> IDF = expression ; 
+
+Ecrire -> ECRIRE ( expression ) ;
+
+TantQue -> TANTQUE ( expressionBooleene ) { BlocInstruction  } 
+
+retour --> RETOUR expression ; | RETOUR ; 
+
+Appel -> IDF(parametre) ;
+
+parametre -> parametre2 | epsilon
+parametre2 -> expression | expression, parametre2 
+
+Instruction -> affectation | appel | ecrire | si | tantque | retour 
+
+fonction -> FONCTION IDF ( defparam ) { BlocDeclaration BlocInstruction } 
+
+lire -> LIRE 
+
+programme -> BlocDeclaration programme2
+programme2 ->  fonction programme2 | fonction 
+
+defparam -> epsilon | defparam2 
+defparam2 -> defIdf , defparam2 | defIdf
+defIdf -> INT IDF 
+declaration -> defIdf ; | defIdf = NUM ;
+
