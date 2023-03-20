@@ -27,6 +27,7 @@ NUM (nombre entier)
 }
 ;
 ,
+=
 
 
 Non terminaux :
@@ -40,8 +41,7 @@ conditionnelle
 Affectation 
 Ecrire 
 TantQue 
-retour 
-retour 
+retour  
 Appel 
 parametre 
 parametre2
@@ -58,7 +58,7 @@ declaration
 
 Grammaire :
 
-expression -> NUM | expression + facteur | expression - facteur | facteur
+expression -> expression + facteur | expression - facteur | facteur
 facteur ->  facteur * atome | facteur / atome | atome
 atome -> (expression) | IDF | lire | appel | NUM 
 
