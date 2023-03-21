@@ -2,12 +2,15 @@ package generated.fr.ul.miage.tdCup;
 import fr.ul.miage.arbre.*;
 
 // code java
+parser code {:
+    public Noeud resultat = null;
+:}
 
-terminal IDF,
-SI, SINON, ECRIRE, TANTQUE, RETOUR, INT, FONCTION, LIRE,
-NUM,
-ADD, SUB, MUL, DIV, PO, PF, SUP, INF, SEQ, IEQ, EQ, DIF, AO, AF, PV, VIR, AFF;
-//+   -    *    /    (   )   >    <    >=   <=   ==  !=   {   }   ;   ,    =
+terminal String IDF;
+terminal SI, SINON, ECRIRE, TANTQUE, RETOUR, INT, FONCTION, LIRE;
+terminal Integer NUM;
+terminal ADD, SUB, MUL, DIV, PO, PF, SUP, INF, SEQ, IEQ, EQ, DIF, AO, AF, PV, VIR, AFF;
+//        +   -    *    /    (   )   >    <    >=   <=   ==  !=   {   }   ;   ,    =
 
 non terminal expression, facteur, atome,
 expressionBooleene,
