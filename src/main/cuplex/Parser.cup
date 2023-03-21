@@ -44,13 +44,36 @@ atome ::= NUM
     | appel:a
     ;
 
-expressionBooleene ::= expression:eg SUP expression:ed
-    | expression:eg INF expression:ed
-    | expression:eg SUP expression:ed
-    | expression:eg SEQ expression:ed
-    | expression:eg IEQ expression:ed
-    | expression:eg EQ expression:ed
-    | expression:eg DIF expression:ed
+expressionBooleene ::= expression:eg SUP expression:ed {:
+        RESULT = new Superieur();
+        ((Superieur)RESULT).setFilsGauche(eg);
+        ((Superieur)RESULT).setFilsDroit(ed);
+    :}
+    | expression:eg INF expression:ed {:
+        RESULT = new Inferieur();
+        ((Inferieur)RESULT).setFilsGauche(eg);
+        ((Inferieur)RESULT).setFilsDroit(ed);
+    :}
+    | expression:eg SEQ expression:ed {:
+        RESULT = new SuperieurEgal();
+        ((SuperieurEgal)RESULT).setFilsGauche(eg);
+        ((SuperieurEgal)RESULT).setFilsDroit(ed);
+    :}
+    | expression:eg IEQ expression:ed {:
+        RESULT = new InferieurEgal();
+        ((InferieurEgal)RESULT).setFilsGauche(eg);
+        ((InferieurEgal)RESULT).setFilsDroit(ed);
+    :}
+    | expression:eg EQ expression:ed {:
+        RESULT = new Egal();
+        ((Egal)RESULT).setFilsGauche(eg);
+        ((Egal)RESULT).setFilsDroit(ed);
+    :}
+    | expression:eg DIF expression:ed {:
+        RESULT = new Different();
+        ((Different)RESULT).setFilsGauche(eg);
+        ((Different)RESULT).setFilsDroit(ed);
+    :}
     ;
 
 blocInstruction ::= instruction:i blocInstruction:bi
