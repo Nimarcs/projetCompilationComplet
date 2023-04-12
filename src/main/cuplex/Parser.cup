@@ -12,7 +12,7 @@ terminal Integer NUM;
 terminal ADD, SUB, MUL, DIV, PO, PF, SUP, INF, SEQ, IEQ, EQ, DIF, AO, AF, PV, VIR, AFF;
 //        +   -    *    /    (   )   >    <    >=   <=   ==  !=   {   }   ;   ,    =
 
-non terminal expression, facteur, atome,
+non terminal Noeud expression, facteur, atome,
 expressionBooleene,
 blocInstruction, blocDeclaration,
 conditionnelle,
@@ -125,7 +125,9 @@ fonction ::= FONCTION IDF PO defParam:d PF AO blocDeclaration:bd blocInstruction
 lire ::= LIRE
     ;
 
-programme ::= blocDeclaration:bd programme2:p
+programme ::= blocDeclaration:bd programme2:p {:
+    resultat = p;
+:}
     ;
 programme2 ::= fonction:f programme2:p
     | fonction:f
