@@ -13,7 +13,7 @@ import java_cup.runtime.Symbol;
     }
 %}
 /* macros */
-COMMENTAIRE = //.*[\r\n]
+COMMENTAIRE = [/][/].*[\r\n]
 SI = [Ss][Ii]
 ECRIRE = [Ee][Cc][Rr][Ii][Rr][Ee]
 SINON = [Ss][Ii][Nn][Oo][Nn]
