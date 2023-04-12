@@ -1,4 +1,4 @@
-package generated.fr.ul.miage.tdCup;
+package generated.fr.ul.miage.ahvr.projetCompilationComplet;
 import fr.ul.miage.arbre.*;
 
 // code java
@@ -114,7 +114,7 @@ parametre2 ::= expression:e
 instruction ::= affectation:a
     | appel:a
     | ecrire:e
-    | si:s
+    | conditionnelle:s
     | tantque:t
     | retour:r
     ;

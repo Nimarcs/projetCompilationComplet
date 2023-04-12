@@ -6,6 +6,7 @@ bin/
 .settings
 .classpath
 bindist/*
+src/main/java/generated/*
 
 
 #DEFAULT MAVEN IGNORE

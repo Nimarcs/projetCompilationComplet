@@ -82,6 +82,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- JFLEX -->
             <plugin>
                 <groupId>de.jflex</groupId>
                 <artifactId>jflex-maven-plugin</artifactId>
@@ -102,6 +103,7 @@
                     <verbose>true</verbose>
                 </configuration>
             </plugin>
+            <!-- CUP -->
             <plugin>
                 <groupId>com.github.vbmacher</groupId>
                 <artifactId>cup-maven-plugin</artifactId>
@@ -128,7 +130,7 @@
         <dependency>
             <groupId>com.github.vbmacher</groupId>
             <artifactId>java-cup-runtime</artifactId>
-            <version>11b-20160615</version>
+            <version>11b-20160615-2</version>
         </dependency>
         <dependency>
             <groupId>fr.ul.miage</groupId>
