@@ -142,7 +142,11 @@ conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF
                     :}
     ;
 
-affectation ::= IDF AFF expression:e PV
+affectation ::= IDF:i AFF expression:e PV {:
+    RESULT = new Affectation();
+    ((Affectation) RESULT).setFilsGauche(new Idf(tds.recupererItem(new CleTDS(i, currentScope))));
+    ((Affectation) RESULT).setFilsDroit(e);
+:}
     ;
 
 ecrire ::= ECRIRE PO expression:e PF PV {:
