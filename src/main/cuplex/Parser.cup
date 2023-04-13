@@ -12,6 +12,8 @@ parser code {:
     private Fonction currentFonction = new Fonction(main);
     private int numSi = 0;
     private int numTantque = 0;
+    private int numParam = 0;
+    private int numLoc = 0;
 :}
 
 terminal String IDF;
@@ -198,6 +200,8 @@ instruction ::= affectation:a {: RESULT = a; :}
     ;
 
 fonction ::= FONCTION IDF:i PO defParam:d PF AO blocDeclaration:bd blocInstruction:bi AF {:
+    numParam = 0;
+    numLoc = 0;
     Item fonction = new Item(i,Type.VOID,CategorieTDS.FONCTION,new Scope(null),null,null,0,0);
     RESULT = new Fonction(fonction);
     currentScope = new Scope((Fonction)RESULT);
@@ -213,28 +217,63 @@ lire ::= LIRE {:
     :}
     ;
 
-programme ::= blocDeclaration:bd programme2:p
+programme ::= blocDeclaration:bd programme2:p {:
+    resultat = p;
+:}
     ;
-programme2 ::= fonction:f programme2:p
+programme2 ::= fonction:f programme2:p {:
+    RESULT = new Prog();
+    ((Prog)RESULT).ajouterUnFils(f);
+    ((Prog)RESULT).ajouterDesFils(((Prog)p).getFils());
+:}
     | fonction:f {:
-        RESULT = f;
+        RESULT = new Prog();
+       ((Prog)RESULT).ajouterUnFils(f);
     :}
     ;
 
-defParam ::= defParam2:p
+defParam ::= defParam2:p {:
+    RESULT = p;
+ :}
     | //vide
     ;
-defParam2 ::= defIdf:i VIR defParam2:p
+defParam2 ::= defIdf:i VIR defParam2:p {:
+   Item item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.PARAM, new Scope(currentScope.getFonction()), null, numParam++, null, null);
+   tds.ajouterItem(item);
+   RESULT = null;
+:}
     | defIdf:i {:
-        RESULT = i;
-    :}
+    Item item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.PARAM, new Scope(currentScope.getFonction()), null, numParam++, null, null);
+    tds.ajouterItem(item);
+    RESULT = null;
+:}
     ;
 defIdf ::= INT IDF:i {:
-        //TODO ne traite pas les variables local
-        Item item = new Item(i, Type.INT, CategorieTDS.GLOBAL, currentScope, null, null, null, null);
-        tds.ajouterItem(item);
-    :}
+    RESULT = new Idf(i);
+:}
     ;
-declaration ::= defIdf:i PV 
-    | defIdf:i AFF NUM PV
+declaration ::= defIdf:i PV {:
+    Item item;
+    if (currentScope.equals(new Scope(null))) {
+        item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.GLOBAL, new Scope(currentScope.getFonction()), null, null, null, null);
+    } else {
+        item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.LOCAL, new Scope(currentScope.getFonction()), null, numLoc++, null, null);
+        Item fonction =(Item) currentScope.getFonction().getValeur();
+        fonction.setNbLocale(fonction.getNbLocale()+1);
+    }
+    tds.ajouterItem(item);
+    RESULT = null;
+:}
+    | defIdf:i AFF NUM:n PV  {:
+    Item item;
+    if (currentScope.equals(new Scope(null))) {
+      item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.GLOBAL, new Scope(currentScope.getFonction()), n, null, null, null);
+    } else {
+      item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.LOCAL, new Scope(currentScope.getFonction()), n, numLoc++, null, null);
+      Item fonction =(Item) currentScope.getFonction().getValeur();
+      fonction.setNbLocale(fonction.getNbLocale()+1);
+    }
+    tds.ajouterItem(item);
+    RESULT = null;
+:}
     ;
