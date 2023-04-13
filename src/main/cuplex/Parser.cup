@@ -43,7 +43,6 @@ atome ::= NUM
 
 expressionBooleene ::= expression SUP expression
     | expression INF expression
-    | expression SUP expression
     | expression SEQ expression
     | expression IEQ expression
     | expression EQ expression
