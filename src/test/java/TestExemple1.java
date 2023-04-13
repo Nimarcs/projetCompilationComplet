@@ -1,3 +1,4 @@
+import fr.ul.miage.arbre.TxtAfficheur;
 import generated.fr.ul.miage.ahvr.projetCompilationComplet.ParserCup;
 import generated.fr.ul.miage.ahvr.projetCompilationComplet.Yylex;
 import org.junit.After;
@@ -22,6 +23,8 @@ public class TestExemple1 {
             Yylex scanner = new Yylex(new FileReader(file));
             ParserCup parser = new ParserCup(scanner);
             parser.parse();
+            TxtAfficheur.afficher(parser.resultat);
+            System.out.println(parser.tds);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
