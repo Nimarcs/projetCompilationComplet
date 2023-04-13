@@ -4,6 +4,8 @@ import fr.ul.miage.arbre.*;
 // code java
 parser code {:
     public Noeud resultat = null;
+    private Scope currentScope = new Scope(null);
+    private Fonction currentFonction = null;
 :}
 
 terminal String IDF;
@@ -30,28 +32,49 @@ defParam, defParam2, defIdf, declaration;
 start with programme;
 
 expression ::= expression:e ADD facteur:f {:
-        RESULT = new Plus();
-        ((Plus)RESULT).setFilsGauche(e);
-        ((Plus)RESULT).setFilsDroit(f);
-    :}
+      RESULT = new Plus();
+      ((Plus)RESULT).setFilsGauche(e);
+      ((Plus)RESULT).setFilsDroit(f);
+  :}
     | expression:e SUB facteur:f {:
-        RESULT = new Moins();
-        ((Moins)RESULT).setFilsGauche(eg);
-        ((Moins)RESULT).setFilsDroit(ed);
+     RESULT = new Moins();
+        ((Moins)RESULT).setFilsGauche(e);
+        ((Moins)RESULT).setFilsDroit(f);
     :}
     | facteur:f {:
-
+        RESULT = f;
     :}
     ;
-facteur ::= facteur:f MUL atome:a
-    | facteur:f DIV atome:a
-    | atome:a
+facteur ::= facteur:f MUL atome:a {:
+              RESULT = new Multiplication();
+              ((Multiplication)RESULT).setFilsGauche(f);
+              ((Multiplication)RESULT).setFilsDroit(a);
+          :}
+    | facteur:f DIV atome:a {:
+        RESULT = new Division();
+        ((Superieur)RESULT).setFilsGauche(eg);
+        ((Superieur)RESULT).setFilsDroit(ed);
+    :}
+    | atome:a {:
+      RESULT = a;
+    :}
     ;
-atome ::= NUM
-    | PO expression:e PF
-    | IDF:i
-    | lire:l
-    | appel:a
+atome ::= NUM:n {:
+      RESULT = new Const(n);
+  :}
+    | PO expression:e PF {:
+         RESULT = e;
+     :}
+    | IDF:i {:
+        Item item = TDS.recupererItem(new CleTDS(currentScope));
+        RESULT = new Idf(item);
+                :}
+    | lire:l {:
+         RESULT = l;
+     :}
+    | appel:a {:
+          RESULT = a;
+    :}
     ;
 
 expressionBooleene ::= expression:eg SUP expression:ed {:
@@ -136,7 +159,7 @@ parametre2 ::= expression:e
 instruction ::= affectation:a
     | appel:a
     | ecrire:e
-    | si:s
+    | conditionnelle:s
     | tantque:t
     | retour:r
     ;
