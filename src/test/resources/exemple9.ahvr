@@ -1,0 +1,12 @@
+INT n=5;
+Fonction fact(INT n){
+ SI (n==0) {
+   RETOUR 1;
+  }
+ SINON {
+    RETOUR n*fact(n-1);
+  }
+}
+FONCTION main() {
+fact( n );
+}
