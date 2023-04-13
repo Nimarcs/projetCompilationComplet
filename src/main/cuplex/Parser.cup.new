@@ -169,7 +169,7 @@ retour ::= RETOUR expression:e PV {:
     :}
     ;
 
-appel ::= IDF PO parametre:p PF PV {:
+appel ::= IDF PO parametre:p PF {:
         RESULT = new Appel(currentFonction);
         ((Appel)RESULT).ajouterDesFils(((Bloc)p).getFils());
     :}
@@ -192,7 +192,7 @@ parametre2 ::= expression:e {:
     ;
 
 instruction ::= affectation:a {: RESULT = a; :}
-    | appel:a {: RESULT = a; :}
+    | appel:a PV {: RESULT = a; :}
     | ecrire:e {: RESULT = e; :}
     | conditionnelle:s {: RESULT = s; :}
     | tantque:t {: RESULT = t; :}

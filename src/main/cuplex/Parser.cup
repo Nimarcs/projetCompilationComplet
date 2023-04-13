@@ -74,7 +74,7 @@ retour ::= RETOUR expression PV
     | RETOUR PV
     ;
 
-appel ::= IDF PO parametre PF PV
+appel ::= IDF PO parametre PF
     ;
 
 parametre ::= parametre2
@@ -85,7 +85,7 @@ parametre2 ::= expression
     ;
 
 instruction ::= affectation
-    | appel
+    | appel PV
     | ecrire
     | conditionnelle
     | tantque
