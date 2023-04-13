@@ -8,7 +8,8 @@ parser code {:
     public Noeud resultat = null;
     public TDS tds = new TDS();
     private Scope currentScope = new Scope(null);
-    private Fonction currentFonction = null;
+    private Item main = new Item("main", Type.VOID, CategorieTDS.FONCTION, currentScope, null, null, 0,0);
+    private Fonction currentFonction = new Fonction(main);
     private int numSi = 0;
     private int numTantque = 0;
 :}
@@ -162,7 +163,7 @@ retour ::= RETOUR expression:e PV {:
         ((Retour)RESULT).setLeFils(e);
     :}
     | RETOUR PV {:
-        RESULT = new Retour();
+        RESULT = new Retour(currentFonction);
     :}
     ;
 
