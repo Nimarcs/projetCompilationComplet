@@ -66,7 +66,7 @@ atome ::= NUM:n {:
          RESULT = e;
      :}
     | IDF:i {:
-        Item item = TDS.recupererItem(new CleTDS(currentScope));
+        Item item = TDS.recupererItem(new CleTDS(i ,currentScope));
         RESULT = new Idf(item);
                 :}
     | lire:l {:
