@@ -173,22 +173,39 @@ appel ::= IDF PO parametre:p PF PV {:
     :}
     ;
 
-parametre ::= parametre2:p
+parametre ::= parametre2:p {:
+    RESULT = p;
+:}
     | //vide
     ;
-parametre2 ::= expression:e
-    | expression:e VIR parametre2:p
+parametre2 ::= expression:e {:
+    RESULT = new Bloc();
+    ((Bloc)RESULT).ajouterUnFils(e);
+:}
+    | expression:e VIR parametre2:p {:
+    RESULT = new Bloc();
+    ((Bloc)RESULT).ajouterUnFils(e);
+    ((Bloc)RESULT).ajouterDesFils(((Bloc)p).getFils());
+:}
     ;
 
-instruction ::= affectation:a
-    | appel:a
-    | ecrire:e
-    | conditionnelle:s
-    | tantque:t
-    | retour:r
+instruction ::= affectation:a {: RESULT = a; :}
+    | appel:a {: RESULT = a; :}
+    | ecrire:e {: RESULT = e; :}
+    | conditionnelle:s {: RESULT = s; :}
+    | tantque:t {: RESULT = t; :}
+    | retour:r {: RESULT = r; :}
     ;
 
-fonction ::= FONCTION IDF PO defParam:d PF AO blocDeclaration:bd blocInstruction:bi AF
+fonction ::= FONCTION IDF:i PO defParam:d PF AO blocDeclaration:bd blocInstruction:bi AF {:
+    Item fonction = new Item(i,Type.VOID,CategorieTDS.FONCTION,scopeGlobale,null,null,0,0);
+    currentScope = new Scope(fonction);
+    fonction.setNbParam(((Bloc)d).getFils().size());
+    RESULT = new Fonction(fonction);
+    ((Fonction)RESULT).ajouterDesFils(bd);
+    ((Fonction)RESULT).ajouterDesFils(bi);
+    currentFonction = RESULT;
+:}
     ;
 
 lire ::= LIRE {:
