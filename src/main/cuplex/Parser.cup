@@ -7,6 +7,8 @@ parser code {:
     public TDS tds = new TDS();
     private Scope currentScope = new Scope(null);
     private Fonction currentFonction = null;
+    private int numSi = 0;
+    private int numTantque = 0;
 :}
 
 terminal String IDF;
@@ -124,9 +126,13 @@ blocDeclaration ::= declaration:d blocDeclaration:bd {:
     {: null :}
     ;
 
-conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF {:
-
-                    SINON AO blocInstruction:bsinon AF
+conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF
+                    SINON AO blocInstruction:bsinon AF {:
+    RESULT = new Si(numSi++);
+    ((Si) RESULT).setCondition(eb);
+    ((Si) RESULT).setBlocAlors(bsi);
+    ((Si) RESULT).setBlocSinon(bsinon);
+                    :}
     ;
 
 affectation ::= IDF AFF expression:e PV
