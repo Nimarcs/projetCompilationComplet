@@ -109,12 +109,18 @@ expressionBooleene ::= expression:eg SUP expression:ed {:
     :}
     ;
 
-blocInstruction ::= instruction:i blocInstruction:bi
-    | //vide
+blocInstruction ::= instruction:i blocInstruction:bi {:
+    RESULT = new ArrayList<Noeud>(i).append(bi);
+:}
+    | // vide
+     {: RESULT = null; :}
     ;
 
-blocDeclaration ::= declaration:d blocDeclaration:bd
-    | //vide
+blocDeclaration ::= declaration:d blocDeclaration:bd {:
+    RESULT = new ArrayList<Noeud>(d).append(bd);
+:}
+    | // vide
+    {: null :}
     ;
 
 conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF
