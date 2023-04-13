@@ -198,13 +198,13 @@ instruction ::= affectation:a {: RESULT = a; :}
     ;
 
 fonction ::= FONCTION IDF:i PO defParam:d PF AO blocDeclaration:bd blocInstruction:bi AF {:
-    Item fonction = new Item(i,Type.VOID,CategorieTDS.FONCTION,scopeGlobale,null,null,0,0);
-    currentScope = new Scope(fonction);
-    fonction.setNbParam(((Bloc)d).getFils().size());
+    Item fonction = new Item(i,Type.VOID,CategorieTDS.FONCTION,new Scope(null),null,null,0,0);
     RESULT = new Fonction(fonction);
-    ((Fonction)RESULT).ajouterDesFils(bd);
-    ((Fonction)RESULT).ajouterDesFils(bi);
-    currentFonction = RESULT;
+    currentScope = new Scope((Fonction)RESULT);
+    fonction.setNbParam(((Bloc)d).getFils().size());
+    ((Fonction)RESULT).ajouterDesFils(((Bloc)bd).getFils());
+    ((Fonction)RESULT).ajouterDesFils(((Bloc)bi).getFils());
+    currentFonction = (Fonction)RESULT;
 :}
     ;
 
