@@ -1,4 +1,7 @@
+INT i = 10 ;
+INT j = 20 ;
+INT k ;
+INT l ;
 FONCTION main() {
-}
 
-EOF
+}

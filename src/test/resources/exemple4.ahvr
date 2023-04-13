@@ -1,4 +1,7 @@
-FONCTION main() {
-}
+INT i;
+INT j = 20;
 
-EOF
+FONCTION main() {
+    i = LIRE;
+    ECRIRE ( i + j ) ;
+}

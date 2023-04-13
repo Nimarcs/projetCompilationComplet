@@ -1,0 +1,10 @@
+INT i;
+INT n = 5;
+
+FONCTION main() {
+  i = 0;
+  TANTQUE ( i < n ) {
+    ECRIRE ( i );
+    i = i + 1;
+  }
+}

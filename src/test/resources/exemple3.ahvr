@@ -1,4 +1,9 @@
-FONCTION main() {
-}
+INT i = 10;
+INT j = 20;
+INT k;
+INT l;
 
-EOF
+FONCTION main() {
+    k = 2;
+    l = i + 3 * j;
+}

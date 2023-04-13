@@ -1,0 +1,14 @@
+INT a=10;
+
+FONCTION f(INT i){
+    INT x;
+    INT y;
+    x=1;
+    y=1;
+    a= i+x+y;
+}
+
+FONCTION main() {
+   f( 3 );
+   ECRIRE(a);
+}

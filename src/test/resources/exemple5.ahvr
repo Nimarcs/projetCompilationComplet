@@ -1,0 +1,6 @@
+INT i;
+
+FONCTION main() {
+    i = LIRE;
+    SI ( i > 10 ) { ECRIRE ( 1 ); } SINON { ECRIRE ( 2 ); }
+}

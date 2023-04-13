@@ -1,0 +1,12 @@
+INT  a;
+
+FONCTION f (INT i, INT j){
+  INT x;
+  x = i + j;
+  RETOUR x + 10;
+}
+
+FONCTION main() {
+  a = f( 1 , 2 );
+  ECRIRE( a );
+}
