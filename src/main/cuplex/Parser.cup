@@ -10,8 +10,8 @@ parser code {:
     private Scope currentScope = new Scope(null);
     private Item main = new Item("main", Type.VOID, CategorieTDS.FONCTION, currentScope, null, null, 0,0);
     private Fonction currentFonction = new Fonction(main);
-    private int numSi = 0;
-    private int numTantque = 0;
+    private int numSi = 1;
+    private int numTantque = 1;
     private int numParam = 0;
     private int numLoc = 0;
 :}
