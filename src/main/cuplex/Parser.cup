@@ -204,11 +204,14 @@ instruction ::= affectation:a {: RESULT = a; :}
 fonction ::= FONCTION IDF:i PO defParam:d PF AO blocDeclaration:bd blocInstruction:bi AF {:
     Item fonction = new Item(i,Type.VOID,CategorieTDS.FONCTION,new Scope(null),null,null,0,0);
     tds.ajouterItem(fonction);
+
     RESULT = new Fonction(fonction);
     currentScope = new Scope((Fonction)RESULT);
-    fonction.setNbParam(((Bloc)d).getFils().size());
-    if (bi != null) ((Fonction)RESULT).ajouterDesFils(((Bloc)bi).getFils());
     currentFonction = (Fonction)RESULT;
+
+    fonction.setNbParam(((Bloc)d).getFils().size());
+
+    if (bi != null) ((Fonction)RESULT).ajouterDesFils(((Bloc)bi).getFils());
 :}
     ;
 
