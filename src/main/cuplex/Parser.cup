@@ -161,7 +161,9 @@ retour ::= RETOUR expression:e PV {:
         RESULT = new Retour(currentFonction);
         ((Retour)RESULT).setLeFils(e);
     :}
-    | RETOUR PV
+    | RETOUR PV {:
+        RESULT = new Retour();
+    :}
     ;
 
 appel ::= IDF PO parametre:p PF PV {:
@@ -196,17 +198,25 @@ lire ::= LIRE {:
 programme ::= blocDeclaration:bd programme2:p
     ;
 programme2 ::= fonction:f programme2:p
-    | fonction:f
+    | fonction:f {:
+        RESULT = f;
+    :}
     ;
 
 defParam ::= defParam2:p
     | //vide
     ;
 defParam2 ::= defIdf:i VIR defParam2:p
-    | defIdf:i
+    | defIdf:i {:
+        RESULT = i;
+    :}
     ;
-defIdf ::= INT IDF
+defIdf ::= INT IDF:i {:
+        //TODO ne traite pas les variables local
+        Item item = new Item(i, Type.INT, CategorieTDS.GLOBAL, currentScope, null, null, null, null);
+        tds.ajouterItem(item);
+    :}
     ;
-declaration ::= defIdf:i PV
+declaration ::= defIdf:i PV 
     | defIdf:i AFF NUM PV
     ;
