@@ -1,4 +1,4 @@
-package generated.fr.ul.miage.ahvr.projetCompilationComplet;
+package generated.fr.ul.miage.tdCup;
 import fr.ul.miage.arbre.*;
 
 // code java
@@ -29,9 +29,19 @@ programme, programme2,
 defParam, defParam2, defIdf, declaration;
 start with programme;
 
-expression ::= expression:e ADD facteur:f
-    | expression:e SUB facteur:f
-    | facteur:f
+expression ::= expression:e ADD facteur:f {:
+        RESULT = new Plus();
+        ((Plus)RESULT).setFilsGauche(e);
+        ((Plus)RESULT).setFilsDroit(f);
+    :}
+    | expression:e SUB facteur:f {:
+        RESULT = new Moins();
+        ((Moins)RESULT).setFilsGauche(eg);
+        ((Moins)RESULT).setFilsDroit(ed);
+    :}
+    | facteur:f {:
+
+    :}
     ;
 facteur ::= facteur:f MUL atome:a
     | facteur:f DIV atome:a
@@ -91,17 +101,29 @@ conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF
 affectation ::= IDF AFF expression:e PV
     ;
 
-ecrire ::= ECRIRE PO expression:e PF PV
+ecrire ::= ECRIRE PO expression:e PF PV {:
+        RESULT = new Ecrire();
+        ((Ecrire)RESULT).setLeFils(e);
+    :}
     ;
 
-tantque ::= TANTQUE PO expressionBooleene:eb PF AO blocInstruction:b AF
+tantque ::= TANTQUE PO expressionBooleene:eb PF AO blocInstruction:b AF {:
+        RESULT = new TantQue();
+        ((TantQue)RESULT).setCondition(eb);
+        ((TantQue)RESULT).setBloc(b);
+    :}
     ;
 
-retour ::= RETOUR expression:e PV
+retour ::= RETOUR expression:e PV {:
+        RESULT = new Retour();
+        ((Retour)RESULT).setLeFils(e);
+    :}
     | RETOUR PV
     ;
 
-appel ::= IDF PO parametre:p PF PV
+appel ::= IDF PO parametre:p PF PV {:
+        RESULT = new Appel();
+    :}
     ;
 
 parametre ::= parametre2:p
@@ -114,7 +136,7 @@ parametre2 ::= expression:e
 instruction ::= affectation:a
     | appel:a
     | ecrire:e
-    | conditionnelle:s
+    | si:s
     | tantque:t
     | retour:r
     ;
@@ -122,12 +144,12 @@ instruction ::= affectation:a
 fonction ::= FONCTION IDF PO defParam:d PF AO blocDeclaration:bd blocInstruction:bi AF
     ;
 
-lire ::= LIRE
+lire ::= LIRE {:
+        RESULT = new Lire();
+    :}
     ;
 
-programme ::= blocDeclaration:bd programme2:p {:
-    resultat = p;
-:}
+programme ::= blocDeclaration:bd programme2:p
     ;
 programme2 ::= fonction:f programme2:p
     | fonction:f
