@@ -255,9 +255,9 @@ defIdf ::= INT IDF:i {:
 declaration ::= defIdf:i PV {:
     Item item;
     if (currentScope.equals(new Scope(null))) {
-        item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.GLOBAL, new Scope(currentScope.getFonction()), null, null, null, null);
+        item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.GLOBAL, new Scope(currentScope.getFonction()), 0, null, null, null);
     } else {
-        item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.LOCAL, new Scope(currentScope.getFonction()), null, numLoc++, null, null);
+        item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.LOCAL, new Scope(currentScope.getFonction()), 0, numLoc++, null, null);
         Item fonction =(Item) currentScope.getFonction().getValeur();
         fonction.setNbLocale(fonction.getNbLocale()+1);
     }
