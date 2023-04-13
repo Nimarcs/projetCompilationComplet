@@ -4,6 +4,7 @@ import fr.ul.miage.arbre.*;
 // code java
 parser code {:
     public Noeud resultat = null;
+    public TDS tds = new TDS();
     private Scope currentScope = new Scope(null);
     private Fonction currentFonction = null;
 :}
@@ -66,7 +67,7 @@ atome ::= NUM:n {:
          RESULT = e;
      :}
     | IDF:i {:
-        Item item = TDS.recupererItem(new CleTDS(i ,currentScope));
+        Item item = tds.recupererItem(new CleTDS(i ,currentScope));
         RESULT = new Idf(item);
                 :}
     | lire:l {:
@@ -123,7 +124,8 @@ blocDeclaration ::= declaration:d blocDeclaration:bd {:
     {: null :}
     ;
 
-conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF
+conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF {:
+
                     SINON AO blocInstruction:bsinon AF
     ;
 
