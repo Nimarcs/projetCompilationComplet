@@ -1,5 +1,7 @@
-package generated.fr.ul.miage.tdCup;
+package generated.fr.ul.miage.ahvr.projetCompilationComplet;
 import fr.ul.miage.arbre.*;
+import TDS.*;
+import java.util.ArrayList;
 
 // code java
 parser code {:
@@ -55,8 +57,8 @@ facteur ::= facteur:f MUL atome:a {:
           :}
     | facteur:f DIV atome:a {:
         RESULT = new Division();
-        ((Superieur)RESULT).setFilsGauche(eg);
-        ((Superieur)RESULT).setFilsDroit(ed);
+        ((Division)RESULT).setFilsGauche(f);
+        ((Division)RESULT).setFilsDroit(a);
     :}
     | atome:a {:
       RESULT = a;
@@ -113,25 +115,29 @@ expressionBooleene ::= expression:eg SUP expression:ed {:
     ;
 
 blocInstruction ::= instruction:i blocInstruction:bi {:
-    RESULT = new ArrayList<Noeud>(i).append(bi);
+    RESULT = new Bloc();
+    ((Bloc)RESULT).ajouterUnFils(i);
+    ((Bloc)RESULT).ajouterDesFils(((Bloc)bi).getFils());
 :}
     | // vide
      {: RESULT = null; :}
     ;
 
 blocDeclaration ::= declaration:d blocDeclaration:bd {:
-    RESULT = new ArrayList<Noeud>(d).append(bd);
+    RESULT = new Bloc();
+    ((Bloc)RESULT).ajouterUnFils(d);
+    ((Bloc)RESULT).ajouterDesFils(((Bloc)bd).getFils());
 :}
     | // vide
-    {: null :}
+    {: RESULT= null; :}
     ;
 
 conditionnelle ::= SI PO expressionBooleene:eb PF AO blocInstruction:bsi AF
                     SINON AO blocInstruction:bsinon AF {:
     RESULT = new Si(numSi++);
     ((Si) RESULT).setCondition(eb);
-    ((Si) RESULT).setBlocAlors(bsi);
-    ((Si) RESULT).setBlocSinon(bsinon);
+    ((Si) RESULT).setBlocAlors((Bloc)bsi);
+    ((Si) RESULT).setBlocSinon((Bloc)bsinon);
                     :}
     ;
 
@@ -145,21 +151,22 @@ ecrire ::= ECRIRE PO expression:e PF PV {:
     ;
 
 tantque ::= TANTQUE PO expressionBooleene:eb PF AO blocInstruction:b AF {:
-        RESULT = new TantQue();
+        RESULT = new TantQue(numTantque++);
         ((TantQue)RESULT).setCondition(eb);
-        ((TantQue)RESULT).setBloc(b);
+        ((TantQue)RESULT).setBloc((Bloc)b);
     :}
     ;
 
 retour ::= RETOUR expression:e PV {:
-        RESULT = new Retour();
+        RESULT = new Retour(currentFonction);
         ((Retour)RESULT).setLeFils(e);
     :}
     | RETOUR PV
     ;
 
 appel ::= IDF PO parametre:p PF PV {:
-        RESULT = new Appel();
+        RESULT = new Appel(currentFonction);
+        ((Appel)RESULT).ajouterDesFils(((Bloc)p).getFils());
     :}
     ;
 
