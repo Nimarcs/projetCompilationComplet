@@ -120,16 +120,14 @@ expressionBooleene ::= expression:eg SUP expression:ed {:
 blocInstruction ::= instruction:i blocInstruction:bi {:
     RESULT = new Bloc();
     ((Bloc)RESULT).ajouterUnFils(i);
-    ((Bloc)RESULT).ajouterDesFils(((Bloc)bi).getFils());
+    if (bi != null) ((Bloc)RESULT).ajouterDesFils(((Bloc)bi).getFils());
 :}
     | // vide
      {: RESULT = null; :}
     ;
 
 blocDeclaration ::= declaration:d blocDeclaration:bd {:
-    RESULT = new Bloc();
-    ((Bloc)RESULT).ajouterUnFils(d);
-    ((Bloc)RESULT).ajouterDesFils(((Bloc)bd).getFils());
+    RESULT = null;
 :}
     | // vide
     {: RESULT= null; :}
@@ -204,8 +202,7 @@ fonction ::= FONCTION IDF:i PO defParam:d PF AO blocDeclaration:bd blocInstructi
     RESULT = new Fonction(fonction);
     currentScope = new Scope((Fonction)RESULT);
     fonction.setNbParam(((Bloc)d).getFils().size());
-    ((Fonction)RESULT).ajouterDesFils(((Bloc)bd).getFils());
-    ((Fonction)RESULT).ajouterDesFils(((Bloc)bi).getFils());
+    if (bi != null) ((Fonction)RESULT).ajouterDesFils(((Bloc)bi).getFils());
     currentFonction = (Fonction)RESULT;
 :}
     ;
@@ -234,16 +231,20 @@ defParam ::= defParam2:p {:
     RESULT = p;
  :}
     | //vide
+    {: RESULT = new Bloc(); :} //Nous permet de compter les parametres
     ;
 defParam2 ::= defIdf:i VIR defParam2:p {:
    Item item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.PARAM, new Scope(currentScope.getFonction()), null, numParam++, null, null);
    tds.ajouterItem(item);
-   RESULT = null;
+   RESULT = new Bloc();
+   ((Bloc)RESULT).ajouterUnFils(new Prog());//Nous permet de compter les parametres
+   ((Bloc)RESULT).ajouterDesFils(((Bloc)p).getFils()); //Nous permet de compter les parametres
 :}
     | defIdf:i {:
     Item item = new Item((String)((Idf)i).getValeur(), Type.INT, CategorieTDS.PARAM, new Scope(currentScope.getFonction()), null, numParam++, null, null);
     tds.ajouterItem(item);
-    RESULT = null;
+    RESULT = new Bloc();
+    ((Bloc)RESULT).ajouterUnFils(new Prog());//Nous permet de compter les parametres
 :}
     ;
 defIdf ::= INT IDF:i {:
